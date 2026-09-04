@@ -1,0 +1,10 @@
+"use strict";
+const fs=require("fs"),path=require("path");let mode="memory",pool=null,filePath=null;
+async function initPersistence(){if(process.env.DATABASE_URL){const {Pool}=require("pg");pool=new Pool({connectionString:process.env.DATABASE_URL,ssl:process.env.DATABASE_URL.includes("localhost")?false:{rejectUnauthorized:false}});await pool.query(`CREATE TABLE IF NOT EXISTS parau_rooms (code VARCHAR(8) PRIMARY KEY, room_json JSONB NOT NULL, updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`);mode="postgres";return}if(process.env.PERSIST_FILE){filePath=path.resolve(process.env.PERSIST_FILE);mode="file"}}
+async function loadRooms(){if(mode==="postgres"){const r=await pool.query(`SELECT room_json FROM parau_rooms WHERE updated_at > NOW() - INTERVAL '7 days'`);return r.rows.map(x=>x.room_json)}if(mode==="file"){try{return JSON.parse(fs.readFileSync(filePath,"utf8"))}catch(e){return []}}return []}
+async function saveRoom(room){if(mode==="postgres")await pool.query(`INSERT INTO parau_rooms(code,room_json,updated_at) VALUES($1,$2,NOW()) ON CONFLICT(code) DO UPDATE SET room_json=EXCLUDED.room_json,updated_at=NOW()`,[room.code,JSON.stringify(room)])}
+async function saveAllRooms(rooms){if(mode!=="file")return;fs.mkdirSync(path.dirname(filePath),{recursive:true});const tmp=filePath+".tmp";fs.writeFileSync(tmp,JSON.stringify([...rooms.values()]));fs.renameSync(tmp,filePath)}
+async function deleteRoom(code){if(mode==="postgres")await pool.query(`DELETE FROM parau_rooms WHERE code=$1`,[code])}
+async function cleanupExpired(days=7){if(mode==="postgres")await pool.query(`DELETE FROM parau_rooms WHERE updated_at < NOW() - ($1 * INTERVAL '1 day')`,[days])}
+function getPersistenceMode(){return mode}
+module.exports={initPersistence,loadRooms,saveRoom,saveAllRooms,deleteRoom,cleanupExpired,getPersistenceMode};
