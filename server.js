@@ -2,9 +2,9 @@
 const http=require("http"),fs=require("fs"),path=require("path"),crypto=require("crypto");
 const {initPersistence,loadRooms,saveRoom,saveAllRooms,deleteRoom,cleanupExpired,getPersistenceMode}=require("./persistence");
 const ROOT=__dirname,PORT=Number(process.env.PORT||3000),HOST=process.env.HOST||"0.0.0.0",rooms=new Map();
-const BOARD_B64=path.join(ROOT,"assets","board","board-fallback.b64");
+const BOARD_FILE=path.join(ROOT,"assets","board","tabuleiro.webp");
 let BOARD=null,BOARD_DATA_URI="";
-function loadBoard(){const s=fs.readFileSync(BOARD_B64,"utf8").trim();const b=Buffer.from(s,"base64");if(b.length<3000||b.subarray(0,4).toString()!=="RIFF"||b.subarray(8,12).toString()!=="WEBP")throw new Error("Tabuleiro WebP inválido");BOARD=b;BOARD_DATA_URI="data:image/webp;base64,"+s;console.log(`TABULEIRO_OK bytes=${b.length} riff=${b.subarray(0,4)} webp=${b.subarray(8,12)}`)}
+function loadBoard(){const b=fs.readFileSync(BOARD_FILE);if(b.length<3000||b.subarray(0,4).toString()!=="RIFF"||b.subarray(8,12).toString()!=="WEBP")throw new Error("Tabuleiro WebP inválido");BOARD=b;BOARD_DATA_URI="data:image/webp;base64,"+b.toString("base64");console.log(`TABULEIRO_HQ_OK bytes=${b.length} riff=${b.subarray(0,4)} webp=${b.subarray(8,12)}`)}
 const mime={".html":"text/html; charset=utf-8",".js":"application/javascript; charset=utf-8",".css":"text/css; charset=utf-8",".png":"image/png",".webp":"image/webp",".jpg":"image/jpeg",".jpeg":"image/jpeg",".svg":"image/svg+xml",".pdf":"application/pdf",".json":"application/json; charset=utf-8"};
 function code(){let s="";const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";do{s=Array.from({length:5},()=>a[Math.floor(Math.random()*a.length)]).join("")}while(rooms.has(s));return s}
 function token(){return crypto.randomBytes(18).toString("hex")}
