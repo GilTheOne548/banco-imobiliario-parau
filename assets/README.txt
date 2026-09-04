@@ -1,0 +1,1 @@
+Imagens do jogo Banco Imobiliário de Paraú.
