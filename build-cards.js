@@ -1,7 +1,6 @@
 "use strict";
 const sharp=require('sharp');
 const path=require('path');
-const fs=require('fs');
 
 (async()=>{
   const dir=path.join(__dirname,'assets/cards');
@@ -17,6 +16,7 @@ const fs=require('fs');
     throw new Error(`Sprite inesperado: ${info.width}x${info.height} canais=${info.channels}`);
   }
 
+  // Mantém os outros 23 títulos exatamente como estavam.
   const outBuf=Buffer.alloc(outW*outH*4);
   const rowBytes=outW*4;
   for(let row=0;row<rows;row++){
@@ -30,8 +30,9 @@ const fs=require('fs');
     .webp({quality:95,effort:4})
     .toFile(out);
 
-  // Estes cinco títulos usam arquivos próprios para eliminar qualquer erro de
-  // enquadramento causado por arredondamento de background-position no sprite.
+  // Somente estes cinco usam a célula COMPLETA 1000x540.
+  // A transparência externa é aparada e a arte inteira é encaixada em 1000x500,
+  // sem cortar topo, base ou laterais e sem deformar a proporção.
   const individuais={
     4:'igreja-catolica',
     5:'praca-central',
@@ -43,14 +44,29 @@ const fs=require('fs');
   for(const [key,name] of Object.entries(individuais)){
     const n=Number(key), col=n%2, row=Math.floor(n/2);
     const left=col*cellW;
-    const top=row*srcCellH+cropTop;
+    const top=row*srcCellH;
     const file=path.join(dir,`titulo-${name}-1000x500.webp`);
-    await sharp(src)
-      .extract({left,top,width:cellW,height:outCellH})
+
+    const fullCell=await sharp(src)
+      .extract({left,top,width:cellW,height:srcCellH})
+      .ensureAlpha()
+      .trim({background:{r:0,g:0,b:0,alpha:0}})
+      .png()
+      .toBuffer();
+
+    await sharp(fullCell)
+      .resize({
+        width:cellW,
+        height:outCellH,
+        fit:'contain',
+        position:'centre',
+        background:{r:0,g:0,b:0,alpha:0}
+      })
       .webp({quality:95,effort:4})
       .toFile(file);
+
     const m=await sharp(file).metadata();
-    console.log(`CARTA_INDIVIDUAL ${name} ${m.width}x${m.height}`);
+    console.log(`CARTA_INDIVIDUAL_SEM_CORTE ${name} ${m.width}x${m.height}`);
   }
 
   const meta=await sharp(out).metadata();
