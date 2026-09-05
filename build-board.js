@@ -7,4 +7,4 @@ const b64=files.map(f=>fs.readFileSync(path.join(dir,f),"utf8").trim()).join("")
 const source=Buffer.from(b64,"base64");
 if(source.length!==56662||source.subarray(0,4).toString()!=="RIFF"||source.subarray(8,12).toString()!=="WEBP")throw new Error(`Tabuleiro HQ inválido: ${source.length} bytes`);
 const out=path.join(__dirname,"assets","board","tabuleiro.webp");
-(async()=>{const info=await sharp(source).resize(1400,1400,{kernel:"lanczos3"}).sharpen({sigma:0.8}).webp({quality:90,effort:6}).toFile(out);console.log(`TABULEIRO_RECONSTRUIDO_HQ 1400x1400 bytes=${info.size}`)})().catch(e=>{console.error(e);process.exit(1)});
+(async()=>{const info=await sharp(source).resize(3200,3200,{kernel:"lanczos3"}).sharpen({sigma:0.8}).webp({quality:90,effort:6}).toFile(out);console.log(`TABULEIRO_RECONSTRUIDO_HQ 3200x3200 bytes=${info.size}`)})().catch(e=>{console.error(e);process.exit(1)});
