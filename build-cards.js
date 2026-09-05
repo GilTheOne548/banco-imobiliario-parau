@@ -18,10 +18,10 @@ const path=require('path');
 
   // Mantém os outros 23 títulos exatamente como estavam.
   const outBuf=Buffer.alloc(outW*outH*4);
-  const rowBytes=outW*4;
+  const fullRowBytes=outW*4;
   for(let row=0;row<rows;row++){
     const srcStart=((row*srcCellH+cropTop)*outW)*4;
-    const srcEnd=srcStart+outCellH*rowBytes;
+    const srcEnd=srcStart+outCellH*fullRowBytes;
     const dstStart=(row*outCellH*outW)*4;
     data.copy(outBuf,dstStart,srcStart,srcEnd);
   }
@@ -30,9 +30,9 @@ const path=require('path');
     .webp({quality:95,effort:4})
     .toFile(out);
 
-  // Somente estes cinco usam a célula COMPLETA 1000x540.
-  // A transparência externa é aparada e a arte inteira é encaixada em 1000x500,
-  // sem cortar topo, base ou laterais e sem deformar a proporção.
+  // Somente estes cinco usam a célula original COMPLETA 1000x540.
+  // Nenhum pixel é cortado. A célula inteira é reduzida proporcionalmente
+  // para caber dentro de uma tela 1000x500 com fundo transparente.
   const individuais={
     4:'igreja-catolica',
     5:'praca-central',
@@ -41,20 +41,22 @@ const path=require('path');
     23:'pastelaria-ff'
   };
 
+  const srcPixelRowBytes=srcW*4;
+  const cellPixelRowBytes=cellW*4;
+
   for(const [key,name] of Object.entries(individuais)){
     const n=Number(key), col=n%2, row=Math.floor(n/2);
-    const left=col*cellW;
-    const top=row*srcCellH;
+    const cellBuf=Buffer.alloc(cellW*srcCellH*4);
+
+    for(let y=0;y<srcCellH;y++){
+      const srcStart=((row*srcCellH+y)*srcW + col*cellW)*4;
+      const srcEnd=srcStart+cellPixelRowBytes;
+      const dstStart=y*cellPixelRowBytes;
+      data.copy(cellBuf,dstStart,srcStart,srcEnd);
+    }
+
     const file=path.join(dir,`titulo-${name}-1000x500.webp`);
-
-    const fullCell=await sharp(src)
-      .extract({left,top,width:cellW,height:srcCellH})
-      .ensureAlpha()
-      .trim({background:{r:0,g:0,b:0,alpha:0}})
-      .png()
-      .toBuffer();
-
-    await sharp(fullCell)
+    await sharp(cellBuf,{raw:{width:cellW,height:srcCellH,channels:4}})
       .resize({
         width:cellW,
         height:outCellH,
@@ -66,7 +68,7 @@ const path=require('path');
       .toFile(file);
 
     const m=await sharp(file).metadata();
-    console.log(`CARTA_INDIVIDUAL_SEM_CORTE ${name} ${m.width}x${m.height}`);
+    console.log(`CARTA_INDIVIDUAL_COMPLETA ${name} ${m.width}x${m.height}`);
   }
 
   const meta=await sharp(out).metadata();
