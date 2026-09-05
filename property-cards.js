@@ -1,7 +1,7 @@
 "use strict";
 (()=>{
-const sprite='/assets/cards/propriedades_sprite_sem_fundo.webp';
-// Exibição solicitada: 1000 x 500. Sprite: 2 colunas x 14 linhas.
+const sprite='/assets/cards/propriedades_sprite_1000x500.webp';
+// Sprite real: 2 colunas x 14 linhas. Cada título ocupa exatamente 1000 x 500.
 const cardBySpace={34:0,31:1,33:2,29:3,37:4,35:5,39:6,36:7,1:8,2:9,4:10,3:11,26:12,28:13,25:14,22:15,5:16,9:17,7:18,23:19,12:20,15:21,13:22,14:23,18:24,17:25,19:26,21:27};
 const st=document.createElement('style');
 st.textContent=`
