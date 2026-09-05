@@ -1,13 +1,13 @@
 "use strict";
 (()=>{
 const sprite='/assets/cards/propriedades_sprite_sem_fundo.webp';
-// Sprite: 2 colunas x 14 linhas. Cada título (frente + verso) mede 1000 x 499 no arquivo final.
+// Sprite: 2 colunas x 14 linhas. Cada título (frente + verso) ocupa uma célula 1000 x 520.
 const cardBySpace={34:0,31:1,33:2,29:3,37:4,35:5,39:6,36:7,1:8,2:9,4:10,3:11,26:12,28:13,25:14,22:15,5:16,9:17,7:18,23:19,12:20,15:21,13:22,14:23,18:24,17:25,19:26,21:27};
 const st=document.createElement('style');
 st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
-.propertyCardSprite,.tipCardSprite{width:100%;aspect-ratio:1000/499;background-image:url('${sprite}');background-repeat:no-repeat;background-size:200% 1400%;background-origin:border-box;background-clip:border-box}
+.propertyCardSprite,.tipCardSprite{width:100%;aspect-ratio:1000/520;background-image:url('${sprite}');background-repeat:no-repeat;background-size:200% 1400%;background-origin:border-box;background-clip:border-box}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
@@ -27,10 +27,9 @@ showCard=function(i){
  $('mt').textContent=p[0];
  const own=ownerText(i);
  const builds=p[3]==='empresa'?(v.h||0)+' investimento(s)':(v.h||0)+' construção(ões)';
- $('mb').innerHTML=`<div class="propertyCardWrap"><div class="propertyCardSprite" style="${cardStyle(n)}" role="img" aria-label="Título de posse de ${esc(p[0])}"></div><div class="propertyCardStatus">${own}<b>Situação no jogo:</b> ${builds}<div class="cardHint">Frente e verso do título de posse original, sem deformação.</div></div></div>`;
+ $('mb').innerHTML=`<div class="propertyCardWrap"><div class="propertyCardSprite" style="${cardStyle(n)}" role="img" aria-label="Título de posse de ${esc(p[0])}"></div><div class="propertyCardStatus">${own}<b>Situação no jogo:</b> ${builds}<div class="cardHint">Frente e verso do título de posse original, com corte limpo e sem deformação.</div></div></div>`;
  $('modal').style.display='flex';
 };
-// Substitui o tooltip original: ao passar o mouse sobre uma propriedade, mostra também a arte do título.
 tip=function(i,e){
  const p=P[i],n=cardBySpace[i],t=$('tip');
  if(!p||n==null)return;
