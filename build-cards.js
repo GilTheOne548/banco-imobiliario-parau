@@ -1,10 +1,12 @@
 "use strict";
 const sharp=require('sharp');
 const path=require('path');
+const fs=require('fs');
 
 (async()=>{
-  const src=path.join(__dirname,'assets/cards/propriedades_sprite_sem_fundo.webp');
-  const out=path.join(__dirname,'assets/cards/propriedades_sprite_1000x500.webp');
+  const dir=path.join(__dirname,'assets/cards');
+  const src=path.join(dir,'propriedades_sprite_sem_fundo.webp');
+  const out=path.join(dir,'propriedades_sprite_1000x500.webp');
   const cellW=1000, srcCellH=540, outCellH=500;
   const cols=2, rows=14, cropTop=20;
   const srcW=cols*cellW, srcH=rows*srcCellH;
@@ -27,6 +29,29 @@ const path=require('path');
   await sharp(outBuf,{raw:{width:outW,height:outH,channels:4}})
     .webp({quality:95,effort:4})
     .toFile(out);
+
+  // Estes cinco títulos usam arquivos próprios para eliminar qualquer erro de
+  // enquadramento causado por arredondamento de background-position no sprite.
+  const individuais={
+    4:'igreja-catolica',
+    5:'praca-central',
+    6:'mercado-publico',
+    7:'burguer-e-brasa',
+    23:'pastelaria-ff'
+  };
+
+  for(const [key,name] of Object.entries(individuais)){
+    const n=Number(key), col=n%2, row=Math.floor(n/2);
+    const left=col*cellW;
+    const top=row*srcCellH+cropTop;
+    const file=path.join(dir,`titulo-${name}-1000x500.webp`);
+    await sharp(src)
+      .extract({left,top,width:cellW,height:outCellH})
+      .webp({quality:95,effort:4})
+      .toFile(file);
+    const m=await sharp(file).metadata();
+    console.log(`CARTA_INDIVIDUAL ${name} ${m.width}x${m.height}`);
+  }
 
   const meta=await sharp(out).metadata();
   console.log(`CARTAS_GERADAS ${meta.width}x${meta.height} cell=${cellW}x${outCellH}`);
