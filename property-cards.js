@@ -1,13 +1,14 @@
 "use strict";
 (()=>{
 const sprite='/assets/cards/propriedades_sprite_sem_fundo.webp';
-// Sprite: 2 colunas x 14 linhas. Cada título (frente + verso) ocupa uma célula 1000 x 520.
+// Sprite final: 2 colunas x 14 linhas. Cada título ocupa exatamente uma célula 1000 x 540.
 const cardBySpace={34:0,31:1,33:2,29:3,37:4,35:5,39:6,36:7,1:8,2:9,4:10,3:11,26:12,28:13,25:14,22:15,5:16,9:17,7:18,23:19,12:20,15:21,13:22,14:23,18:24,17:25,19:26,21:27};
 const st=document.createElement('style');
 st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
-.propertyCardSprite,.tipCardSprite{width:100%;aspect-ratio:1000/520;background-image:url('${sprite}');background-repeat:no-repeat;background-size:200% 1400%;background-origin:border-box;background-clip:border-box}
+.cardViewport{position:relative;width:100%;aspect-ratio:1000/540;overflow:hidden;background:transparent}
+.cardViewport img{position:absolute;width:200%;height:auto;max-width:none;left:calc(var(--col)*-100%);top:calc(var(--row)*-100%);display:block;pointer-events:none;user-select:none}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
@@ -18,7 +19,10 @@ st.textContent=`
 @media(max-width:600px){#modal{padding:8px}#modal>div{padding:12px}.propertyCardSprite{border-radius:9px}.tip{width:320px}}
 `;
 document.head.appendChild(st);
-function cardStyle(n){const col=n%2,row=Math.floor(n/2);return `background-position:${col?100:0}% ${(row/13*100).toFixed(6)}%`}
+function cardHTML(n,cls,label){
+ const col=n%2,row=Math.floor(n/2);
+ return `<div class="cardViewport ${cls||''}" style="--col:${col};--row:${row}" role="img" aria-label="${esc(label||'Título de posse')}"><img src="${sprite}" alt="" draggable="false"></div>`;
+}
 const oldShow=typeof showCard==='function'?showCard:null;
 showCard=function(i){
  const p=P[i],n=cardBySpace[i];
@@ -27,14 +31,14 @@ showCard=function(i){
  $('mt').textContent=p[0];
  const own=ownerText(i);
  const builds=p[3]==='empresa'?(v.h||0)+' investimento(s)':(v.h||0)+' construção(ões)';
- $('mb').innerHTML=`<div class="propertyCardWrap"><div class="propertyCardSprite" style="${cardStyle(n)}" role="img" aria-label="Título de posse de ${esc(p[0])}"></div><div class="propertyCardStatus">${own}<b>Situação no jogo:</b> ${builds}<div class="cardHint">Frente e verso do título de posse original, com corte limpo e sem deformação.</div></div></div>`;
+ $('mb').innerHTML=`<div class="propertyCardWrap">${cardHTML(n,'propertyCardSprite','Título de posse de '+p[0])}<div class="propertyCardStatus">${own}<b>Situação no jogo:</b> ${builds}<div class="cardHint">Frente e verso do título de posse, sem deformação e sem partes de cartas vizinhas.</div></div></div>`;
  $('modal').style.display='flex';
 };
 tip=function(i,e){
  const p=P[i],n=cardBySpace[i],t=$('tip');
  if(!p||n==null)return;
  const aluguel=p[3]==='empresa'?'Empresa: aluguel calculado pelos dados e investimentos.':'Aluguel base: '+brl(p[2][0]);
- t.innerHTML=`<div class="tipCardSprite" style="${cardStyle(n)}" role="img" aria-label="${esc(p[0])}"></div><div class="tipInfo"><b>${esc(p[0])}</b><div>Compra: ${brl(p[1])}</div>${ownerText(i)}<div>${aluguel}</div><div class="cardHint">Clique para ampliar o título.</div></div>`;
+ t.innerHTML=`${cardHTML(n,'tipCardSprite','Título de posse de '+p[0])}<div class="tipInfo"><b>${esc(p[0])}</b><div>Compra: ${brl(p[1])}</div>${ownerText(i)}<div>${aluguel}</div><div class="cardHint">Clique para ampliar o título.</div></div>`;
  t.style.display='block';
  moveTip(e);
 };
