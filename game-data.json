@@ -1,0 +1,406 @@
+{
+  "properties": {
+    "1": [
+      "Quadra Poliesportiva",
+      100000,
+      [
+        6000,
+        30000,
+        90000,
+        270000,
+        400000,
+        550000
+      ],
+      "verde"
+    ],
+    "2": [
+      "Rua José Vicente",
+      75000,
+      [
+        4000,
+        20000,
+        60000,
+        180000,
+        320000,
+        450000
+      ],
+      "verde"
+    ],
+    "3": [
+      "Mercadinho Araújo",
+      300000,
+      null,
+      "empresa"
+    ],
+    "4": [
+      "Rua Luiz Terceiro",
+      60000,
+      [
+        4000,
+        20000,
+        60000,
+        180000,
+        320000,
+        450000
+      ],
+      "verde"
+    ],
+    "5": [
+      "UBS Antônio Xavier",
+      240000,
+      [
+        20000,
+        100000,
+        300000,
+        750000,
+        925000,
+        1100000
+      ],
+      "rosa"
+    ],
+    "7": [
+      "Escola Silvestre Veras",
+      220000,
+      [
+        18000,
+        90000,
+        250000,
+        700000,
+        875000,
+        1050000
+      ],
+      "rosa"
+    ],
+    "9": [
+      "Hospital Municipal",
+      220000,
+      [
+        18000,
+        90000,
+        250000,
+        700000,
+        875000,
+        1050000
+      ],
+      "rosa"
+    ],
+    "12": [
+      "Flor do Mato",
+      200000,
+      [
+        16000,
+        80000,
+        220000,
+        600000,
+        800000,
+        1000000
+      ],
+      "azul"
+    ],
+    "13": [
+      "Rua Maria Cabral",
+      180000,
+      [
+        14000,
+        70000,
+        200000,
+        550000,
+        750000,
+        950000
+      ],
+      "azul"
+    ],
+    "14": [
+      "Pastelaria F&F",
+      300000,
+      null,
+      "empresa"
+    ],
+    "15": [
+      "Alto do Louvor",
+      180000,
+      [
+        14000,
+        70000,
+        200000,
+        550000,
+        750000,
+        950000
+      ],
+      "azul"
+    ],
+    "17": [
+      "Prefeitura Municipal",
+      400000,
+      [
+        50000,
+        200000,
+        600000,
+        1000000,
+        1400000,
+        2000000
+      ],
+      "roxo"
+    ],
+    "18": [
+      "Câmara Municipal",
+      350000,
+      [
+        35000,
+        175000,
+        500000,
+        800000,
+        1100000,
+        1500000
+      ],
+      "roxo"
+    ],
+    "19": [
+      "Beiço do Açude",
+      120000,
+      [
+        8000,
+        40000,
+        100000,
+        300000,
+        450000,
+        600000
+      ],
+      "roxo"
+    ],
+    "21": [
+      "Malvinas",
+      100000,
+      [
+        6000,
+        30000,
+        90000,
+        270000,
+        400000,
+        550000
+      ],
+      "roxo"
+    ],
+    "22": [
+      "Posto Coringa",
+      300000,
+      null,
+      "empresa"
+    ],
+    "23": [
+      "Loterias Araújo",
+      300000,
+      null,
+      "empresa"
+    ],
+    "25": [
+      "Rua Alferes Tonho",
+      140000,
+      [
+        10000,
+        50000,
+        150000,
+        450000,
+        625000,
+        750000
+      ],
+      "laranja"
+    ],
+    "26": [
+      "Rua Maroca Veras",
+      160000,
+      [
+        12000,
+        60000,
+        180000,
+        500000,
+        700000,
+        900000
+      ],
+      "laranja"
+    ],
+    "28": [
+      "Rua Benedito Peixoto",
+      140000,
+      [
+        10000,
+        50000,
+        150000,
+        450000,
+        625000,
+        750000
+      ],
+      "laranja"
+    ],
+    "29": [
+      "CT 47",
+      200000,
+      null,
+      "empresa"
+    ],
+    "31": [
+      "Rua Padre Amaro",
+      330000,
+      [
+        28000,
+        140000,
+        420000,
+        1000000,
+        1200000,
+        1400000
+      ],
+      "salmao"
+    ],
+    "33": [
+      "Rua José Eufrazio",
+      300000,
+      [
+        26000,
+        130000,
+        390000,
+        900000,
+        1100000,
+        1275000
+      ],
+      "salmao"
+    ],
+    "34": [
+      "Rua Luiz Gondim",
+      300000,
+      [
+        26000,
+        130000,
+        390000,
+        900000,
+        1100000,
+        1275000
+      ],
+      "salmao"
+    ],
+    "35": [
+      "Praça Central",
+      280000,
+      [
+        24000,
+        120000,
+        360000,
+        650000,
+        850000,
+        1150000
+      ],
+      "amarelo"
+    ],
+    "36": [
+      "Burguer & Brasa",
+      200000,
+      null,
+      "empresa"
+    ],
+    "37": [
+      "Igreja Católica",
+      260000,
+      [
+        22000,
+        110000,
+        330000,
+        575000,
+        750000,
+        1000000
+      ],
+      "amarelo"
+    ],
+    "39": [
+      "Mercado Público",
+      260000,
+      [
+        22000,
+        110000,
+        330000,
+        575000,
+        750000,
+        1000000
+      ],
+      "amarelo"
+    ]
+  },
+  "groups": {
+    "verde": [
+      1,
+      2,
+      4
+    ],
+    "rosa": [
+      5,
+      7,
+      9
+    ],
+    "azul": [
+      12,
+      13,
+      15
+    ],
+    "roxo": [
+      17,
+      18,
+      19,
+      21
+    ],
+    "laranja": [
+      25,
+      26,
+      28
+    ],
+    "salmao": [
+      31,
+      33,
+      34
+    ],
+    "amarelo": [
+      35,
+      37,
+      39
+    ]
+  },
+  "names": [
+    "INÍCIO",
+    "Quadra Poliesportiva",
+    "Rua José Vicente",
+    "Mercadinho Araújo",
+    "Rua Luiz Terceiro",
+    "UBS Antônio Xavier",
+    "Sorte ou Miséria",
+    "Escola Silvestre Veras",
+    "Bingo",
+    "Hospital Municipal",
+    "Teje preso curiando",
+    "Sorte ou Miséria",
+    "Flor do Mato",
+    "Rua Maria Cabral",
+    "Pastelaria F&F",
+    "Alto do Louvor",
+    "Bingo",
+    "Prefeitura Municipal",
+    "Câmara Municipal",
+    "Beiço do Açude",
+    "Jogo do Brasil",
+    "Malvinas",
+    "Posto Coringa",
+    "Loterias Araújo",
+    "Sorte ou Miséria",
+    "Rua Alferes Tonho",
+    "Rua Maroca Veras",
+    "Sorte ou Miséria",
+    "Rua Benedito Peixoto",
+    "CT 47",
+    "Vá direto pra Delegacia",
+    "Rua Padre Amaro",
+    "Sorte ou Miséria",
+    "Rua José Eufrazio",
+    "Rua Luiz Gondim",
+    "Praça Central",
+    "Burguer & Brasa",
+    "Igreja Católica",
+    "Sorte ou Miséria",
+    "Mercado Público"
+  ]
+}
