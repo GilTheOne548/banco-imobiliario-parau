@@ -1,10 +1,10 @@
 "use strict";
-const fs=require("fs"),path=require("path");
+const fs=require("fs"),path=require("path"),sharp=require("sharp");
 const dir=path.join(__dirname,"assets","board","hq700");
 const files=fs.readdirSync(dir).filter(f=>/^\d{2}\.txt$/.test(f)).sort();
 if(files.length!==22)throw new Error(`Tabuleiro HQ incompleto: ${files.length}/22 partes`);
 const b64=files.map(f=>fs.readFileSync(path.join(dir,f),"utf8").trim()).join("");
-const board=Buffer.from(b64,"base64");
-if(board.length!==56662||board.subarray(0,4).toString()!=="RIFF"||board.subarray(8,12).toString()!=="WEBP")throw new Error(`Tabuleiro HQ inválido: ${board.length} bytes`);
-fs.writeFileSync(path.join(__dirname,"assets","board","tabuleiro.webp"),board);
-console.log(`TABULEIRO_RECONSTRUIDO_HQ 700x700 bytes=${board.length}`);
+const source=Buffer.from(b64,"base64");
+if(source.length!==56662||source.subarray(0,4).toString()!=="RIFF"||source.subarray(8,12).toString()!=="WEBP")throw new Error(`Tabuleiro HQ inválido: ${source.length} bytes`);
+const out=path.join(__dirname,"assets","board","tabuleiro.webp");
+(async()=>{const info=await sharp(source).resize(1400,1400,{kernel:"lanczos3"}).sharpen({sigma:0.8}).webp({quality:90,effort:6}).toFile(out);console.log(`TABULEIRO_RECONSTRUIDO_HQ 1400x1400 bytes=${info.size}`)})().catch(e=>{console.error(e);process.exit(1)});
