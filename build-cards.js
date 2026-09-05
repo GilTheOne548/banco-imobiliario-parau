@@ -6,25 +6,26 @@ const path=require('path');
   const src=path.join(__dirname,'assets/cards/propriedades_sprite_sem_fundo.webp');
   const out=path.join(__dirname,'assets/cards/propriedades_sprite_1000x500.webp');
   const cellW=1000, srcCellH=540, outCellH=500;
-  const cols=2, rows=14;
-  const cropTop=20;
-  const layers=[];
+  const cols=2, rows=14, cropTop=20;
+  const srcW=cols*cellW, srcH=rows*srcCellH;
+  const outW=srcW, outH=rows*outCellH;
 
-  for(let row=0;row<rows;row++){
-    for(let col=0;col<cols;col++){
-      const input=await sharp(src)
-        .extract({left:col*cellW,top:row*srcCellH+cropTop,width:cellW,height:outCellH})
-        .png()
-        .toBuffer();
-      layers.push({input,left:col*cellW,top:row*outCellH});
-    }
+  const {data,info}=await sharp(src).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  if(info.width!==srcW||info.height!==srcH||info.channels!==4){
+    throw new Error(`Sprite inesperado: ${info.width}x${info.height} canais=${info.channels}`);
   }
 
-  await sharp({
-    create:{width:cols*cellW,height:rows*outCellH,channels:4,background:{r:0,g:0,b:0,alpha:0}}
-  })
-    .composite(layers)
-    .webp({quality:95,effort:6})
+  const outBuf=Buffer.alloc(outW*outH*4);
+  const rowBytes=outW*4;
+  for(let row=0;row<rows;row++){
+    const srcStart=((row*srcCellH+cropTop)*outW)*4;
+    const srcEnd=srcStart+outCellH*rowBytes;
+    const dstStart=(row*outCellH*outW)*4;
+    data.copy(outBuf,dstStart,srcStart,srcEnd);
+  }
+
+  await sharp(outBuf,{raw:{width:outW,height:outH,channels:4}})
+    .webp({quality:95,effort:4})
     .toFile(out);
 
   const meta=await sharp(out).metadata();
