@@ -1,10 +1,11 @@
 "use strict";
 const fs=require("fs"),path=require("path"),sharp=require("sharp");
-const dir=path.join(__dirname,"assets","board","hq700");
-const files=fs.readdirSync(dir).filter(f=>/^\d{2}\.txt$/.test(f)).sort();
-if(files.length!==22)throw new Error(`Tabuleiro HQ incompleto: ${files.length}/22 partes`);
-const b64=files.map(f=>fs.readFileSync(path.join(dir,f),"utf8").trim()).join("");
-const source=Buffer.from(b64,"base64");
-if(source.length!==56662||source.subarray(0,4).toString()!=="RIFF"||source.subarray(8,12).toString()!=="WEBP")throw new Error(`Tabuleiro HQ inválido: ${source.length} bytes`);
+const source=path.join(__dirname,"assets","board","converted_image.jpeg");
 const out=path.join(__dirname,"assets","board","tabuleiro.webp");
-(async()=>{const info=await sharp(source).resize(8192,8192,{kernel:"lanczos3"}).sharpen({sigma:0.8}).webp({quality:90,effort:6}).toFile(out);console.log(`TABULEIRO_RECONSTRUIDO_HQ 8192x8192 bytes=${info.size}`)})().catch(e=>{console.error(e);process.exit(1)});
+if(!fs.existsSync(source))throw new Error("Tabuleiro nativo não encontrado: "+source);
+(async()=>{
+  const meta=await sharp(source).metadata();
+  console.log(`TABULEIRO_FONTE_NATIVA ${meta.width}x${meta.height} format=${meta.format} bytes=${fs.statSync(source).size}`);
+  const info=await sharp(source).webp({quality:92,effort:5}).toFile(out);
+  console.log(`TABULEIRO_RECONSTRUIDO_NATIVO ${info.width}x${info.height} bytes=${info.size}`);
+})().catch(e=>{console.error(e);process.exit(1)});
