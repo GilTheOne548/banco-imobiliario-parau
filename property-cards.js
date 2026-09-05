@@ -1,13 +1,20 @@
 "use strict";
 (()=>{
 const sprite='/assets/cards/propriedades_sprite_1000x500.webp';
+const individuais={
+  4:'/assets/cards/titulo-igreja-catolica-1000x500.webp',
+  5:'/assets/cards/titulo-praca-central-1000x500.webp',
+  6:'/assets/cards/titulo-mercado-publico-1000x500.webp',
+  7:'/assets/cards/titulo-burguer-e-brasa-1000x500.webp',
+  23:'/assets/cards/titulo-pastelaria-ff-1000x500.webp'
+};
 // Sprite real: 2 colunas x 14 linhas. Cada título ocupa exatamente 1000 x 500.
 const cardBySpace={34:0,31:1,33:2,29:3,37:4,35:5,39:6,36:7,1:8,2:9,4:10,3:11,26:12,28:13,25:14,22:15,5:16,9:17,7:18,23:19,12:20,15:21,13:22,14:23,18:24,17:25,19:26,21:27};
 const st=document.createElement('style');
 st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
-.cardViewport{width:100%;aspect-ratio:1000/500;background-image:url('${sprite}');background-repeat:no-repeat;background-size:200% 1400%;background-color:transparent}
+.cardViewport{width:100%;aspect-ratio:1000/500;background-repeat:no-repeat;background-color:transparent}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
@@ -19,10 +26,11 @@ st.textContent=`
 `;
 document.head.appendChild(st);
 function cardStyle(n){
+ if(individuais[n]) return `background-image:url('${individuais[n]}');background-size:100% 100%;background-position:center`;
  const col=n%2,row=Math.floor(n/2);
  const x=col===0?0:100;
  const y=row===0?0:(row/13)*100;
- return `background-position:${x}% ${y.toFixed(8)}%`;
+ return `background-image:url('${sprite}');background-size:200% 1400%;background-position:${x}% ${y.toFixed(8)}%`;
 }
 function cardHTML(n,cls,label){return `<div class="cardViewport ${cls||''}" style="${cardStyle(n)}" role="img" aria-label="${esc(label||'Título de posse')}"></div>`;}
 const oldShow=typeof showCard==='function'?showCard:null;
