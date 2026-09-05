@@ -1,50 +1,47 @@
 "use strict";
 (()=>{
 const sprite='/assets/cards/propriedades_sprite_1000x500.webp';
-const individuais={
-  4:'/assets/cards/titulo-igreja-catolica-1000x500.webp',
-  5:'/assets/cards/titulo-praca-central-1000x500.webp',
-  6:'/assets/cards/titulo-mercado-publico-1000x500.webp',
-  7:'/assets/cards/titulo-burguer-e-brasa-1000x500.webp',
-  23:'/assets/cards/titulo-pastelaria-ff-1000x500.webp'
-};
-// Ajustes APENAS de exibicao. Nenhuma arte e modificada.
-// scale = pequeno zoom para esconder as sobras externas; x/y = reposicionamento dentro da janela.
-const enquadramento={
-  4:{scale:1.045,x:0,y:-0.5},       // Igreja Catolica
-  5:{scale:1.055,x:0,y:-1.8},       // Praca Central
-  6:{scale:1.055,x:0,y:-1.8},       // Mercado Publico
-  7:{scale:1.035,x:0,y:-0.4},       // Burguer & Brasa
-  23:{scale:1.035,x:0,y:-0.4}       // Pastelaria F&F
-};
+const spriteOriginal='/assets/cards/propriedades_sprite_sem_fundo.webp?v=raw540-1';
+// Somente estes cinco usam a celula ORIGINAL 1000x540, sem recorte ou zoom.
+const usarOriginal=new Set([4,5,6,7,23]);
 const cardBySpace={34:0,31:1,33:2,29:3,37:4,35:5,39:6,36:7,1:8,2:9,4:10,3:11,26:12,28:13,25:14,22:15,5:16,9:17,7:18,23:19,12:20,15:21,13:22,14:23,18:24,17:25,19:26,21:27};
 const st=document.createElement('style');
 st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
-.cardViewport{width:100%;aspect-ratio:2/1;background-repeat:no-repeat;background-color:transparent}
+.cardViewport{width:100%;aspect-ratio:1000/500;background-repeat:no-repeat;background-color:transparent}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
-.individualCardViewport{position:relative;width:100%;aspect-ratio:2/1!important;overflow:hidden!important;background:none!important;border-radius:0!important;box-shadow:none!important}
-.individualCardViewport img{position:absolute;left:0;top:0;width:100%;height:100%;display:block;object-fit:fill;border:0;border-radius:0;box-shadow:none;transform-origin:center center;will-change:transform}
+.original540Viewport{width:100%;aspect-ratio:1000/540!important;background-repeat:no-repeat!important;background-color:transparent!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+.tipCardSprite.original540Viewport{border-radius:0!important;box-shadow:none!important;margin-bottom:8px}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
 .cardHint{font-size:11px;color:#617080;margin-top:4px}
 .tip{width:390px;max-width:calc(100vw - 20px);padding:10px}
 .tipCardSprite{border-radius:10px;margin-bottom:8px;box-shadow:0 2px 10px #0002}
-.tipCardSprite.individualCardViewport{border-radius:0!important;box-shadow:none!important;margin-bottom:8px}
 .tipInfo{font-size:12px;line-height:1.35}
 @media(max-width:600px){#modal{padding:8px}#modal>div{padding:12px}.propertyCardSprite{border-radius:9px}.tip{width:320px}}
 `;
 document.head.appendChild(st);
+function spritePosition(n){
+ const col=n%2,row=Math.floor(n/2);
+ const x=col===0?0:100;
+ const y=row===0?0:(row/13)*100;
+ return {x,y};
+}
 function cardStyle(n){
- const col=n%2,row=Math.floor(n/2),x=col===0?0:100,y=row===0?0:(row/13)*100;
+ const {x,y}=spritePosition(n);
  return `background-image:url('${sprite}');background-size:200% 1400%;background-position:${x}% ${y.toFixed(8)}%`;
+}
+function originalStyle(n){
+ const {x,y}=spritePosition(n);
+ // A janela tem exatamente a mesma proporcao de cada celula do sprite original:
+ // 1000x540. Portanto nenhuma parte da arte e descartada.
+ return `background-image:url('${spriteOriginal}');background-size:200% 1400%;background-position:${x}% ${y.toFixed(8)}%`;
 }
 function cardHTML(n,cls,label){
  const aria=esc(label||'Título de posse');
- if(individuais[n]){
-   const a=enquadramento[n]||{scale:1,x:0,y:0};
-   return `<div class="cardViewport individualCardViewport ${cls||''}" role="img" aria-label="${aria}"><img src="${individuais[n]}?pos=2" alt="" draggable="false" style="transform:translate(${a.x}%,${a.y}%) scale(${a.scale})"></div>`;
+ if(usarOriginal.has(n)){
+   return `<div class="cardViewport original540Viewport ${cls||''}" style="${originalStyle(n)}" role="img" aria-label="${aria}"></div>`;
  }
  return `<div class="cardViewport ${cls||''}" style="${cardStyle(n)}" role="img" aria-label="${aria}"></div>`;
 }
