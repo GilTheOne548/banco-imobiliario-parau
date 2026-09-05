@@ -8,7 +8,7 @@ st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
 .cardViewport{position:relative;width:100%;aspect-ratio:1000/540;overflow:hidden;background:transparent}
-.cardViewport img{position:absolute;width:200%;height:auto;max-width:none;left:calc(var(--col)*-100%);top:calc(var(--row)*-100%);display:block;pointer-events:none;user-select:none}
+.cardViewport img{position:absolute;width:200%;height:auto;max-width:none;display:block;pointer-events:none;user-select:none}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
@@ -21,7 +21,9 @@ st.textContent=`
 document.head.appendChild(st);
 function cardHTML(n,cls,label){
  const col=n%2,row=Math.floor(n/2);
- return `<div class="cardViewport ${cls||''}" style="--col:${col};--row:${row}" role="img" aria-label="${esc(label||'Título de posse')}"><img src="${sprite}" alt="" draggable="false"></div>`;
+ const left=col===0?'0%':'-100%';
+ const top=(-row*100)+'%';
+ return `<div class="cardViewport ${cls||''}" role="img" aria-label="${esc(label||'Título de posse')}"><img src="${sprite}" alt="" draggable="false" style="left:${left};top:${top}"></div>`;
 }
 const oldShow=typeof showCard==='function'?showCard:null;
 showCard=function(i){
