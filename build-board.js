@@ -1,6 +1,6 @@
 "use strict";
 const fs=require("fs"),path=require("path"),sharp=require("sharp");
-const source=path.join(__dirname,"assets","board","converted_image.jpeg");
+const source=path.join(__dirname,"assets","board","tabuleiro_parau_native_8192.jpeg");
 const out=path.join(__dirname,"assets","board","tabuleiro.webp");
 if(!fs.existsSync(source))throw new Error("Tabuleiro nativo não encontrado: "+source);
 (async()=>{
