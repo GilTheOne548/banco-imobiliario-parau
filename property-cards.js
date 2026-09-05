@@ -7,8 +7,7 @@ const st=document.createElement('style');
 st.textContent=`
 #modal>div{max-width:900px}
 .propertyCardWrap{display:grid;gap:10px}
-.cardViewport{position:relative;width:100%;aspect-ratio:1000/540;overflow:hidden;background:transparent}
-.cardViewport img{position:absolute;width:200%;height:auto;max-width:none;display:block;pointer-events:none;user-select:none}
+.cardViewport{width:100%;aspect-ratio:1000/540;background-image:url('${sprite}');background-repeat:no-repeat;background-size:200% 1400%;background-color:transparent}
 .propertyCardSprite{border-radius:14px;box-shadow:0 4px 18px #0002}
 .propertyCardStatus{padding:10px 12px;background:#f3f6f8;border-radius:10px}
 .owned .ownedCard{cursor:pointer;transition:.15s}.owned .ownedCard:hover{transform:translateY(-1px);box-shadow:0 3px 10px #0002}
@@ -19,11 +18,14 @@ st.textContent=`
 @media(max-width:600px){#modal{padding:8px}#modal>div{padding:12px}.propertyCardSprite{border-radius:9px}.tip{width:320px}}
 `;
 document.head.appendChild(st);
-function cardHTML(n,cls,label){
+function cardStyle(n){
  const col=n%2,row=Math.floor(n/2);
- const left=col===0?'0%':'-100%';
- const top=(-row*100)+'%';
- return `<div class="cardViewport ${cls||''}" role="img" aria-label="${esc(label||'Título de posse')}"><img src="${sprite}" alt="" draggable="false" style="left:${left};top:${top}"></div>`;
+ const x=col===0?0:100;
+ const y=row===0?0:(row/13)*100;
+ return `background-position:${x}% ${y.toFixed(8)}%`;
+}
+function cardHTML(n,cls,label){
+ return `<div class="cardViewport ${cls||''}" style="${cardStyle(n)}" role="img" aria-label="${esc(label||'Título de posse')}"></div>`;
 }
 const oldShow=typeof showCard==='function'?showCard:null;
 showCard=function(i){
