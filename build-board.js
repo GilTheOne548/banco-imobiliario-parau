@@ -1,0 +1,10 @@
+"use strict";
+const fs=require("fs"),path=require("path");
+const dir=path.join(__dirname,"assets","board","hq700");
+const files=fs.readdirSync(dir).filter(f=>/^\d{2}\.txt$/.test(f)).sort();
+if(files.length!==22)throw new Error(`Tabuleiro HQ incompleto: ${files.length}/22 partes`);
+const b64=files.map(f=>fs.readFileSync(path.join(dir,f),"utf8").trim()).join("");
+const board=Buffer.from(b64,"base64");
+if(board.length!==56662||board.subarray(0,4).toString()!=="RIFF"||board.subarray(8,12).toString()!=="WEBP")throw new Error(`Tabuleiro HQ inválido: ${board.length} bytes`);
+fs.writeFileSync(path.join(__dirname,"assets","board","tabuleiro.webp"),board);
+console.log(`TABULEIRO_RECONSTRUIDO_HQ 700x700 bytes=${board.length}`);
