@@ -2,7 +2,7 @@
 (()=>{
 const cardNames=['Bolsa Família','Recebendo o Aluguel','Habeas Corpus','Investindo Alto','Seguro','Loteria da Sorte','Casa Nova','Corte de Gastos','Veto','Financiamento','Investimento Preciso','Mim Dê','Delação Premiada','Isenção de aluguel','Sinistro Estrutural','Escolha de pagamento','Banco Faliu','Auditoria Fiscal','Crise de Reputação','Manutenção Emergencial','Pagando o que Deve','Inadimplência Geral','Desastre Ambiental','Obra Embargada','Bolha Imobiliária','Taxa aos Ricos','Reajuste da Inflação','Estatização','Quebra da Bolsa','Reforma Agrária Urbana'];
 const vals=[1000,5000,10000,50000,100000,200000,500000];
-const characterNames=['Chefe Esponja','Rei do Lucro','Homem Elegante','Herdeiro','Agiota','Navegadora','Magnata','Revolucionário','Tubarão dos Negócios','Industrialista'];
+const characterNames=['Chefe Esponja','Rei do Lucro','Homem Elegante','Herdeiro','Agiota','Navegadora','Playboy','Revolucionário','Magnata','Industrialista'];
 names[8]='Taxa Municipal';
 document.head.insertAdjacentHTML('beforeend','<link rel="stylesheet" href="/bank-enhancements.css">');
 const own=i=>Object.keys(state.titles).map(Number).filter(k=>state.titles[k].owner===i);
