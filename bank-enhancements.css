@@ -1,16 +1,23 @@
 .bank-zone { position:relative; z-index:20; margin:22px 0; padding:28px; overflow:visible; border:2px solid #afc98e; border-radius:22px; background:linear-gradient(135deg,#eef5df,#dce9c7); box-shadow:0 12px 28px #173e3414; }
 .bank-zone h3 { max-width:280px; font-size:22px; }
 .bank-stack { width:min(55%,520px); padding:34px 18px; justify-content:center; }
-.bank-stack .banknote { width:160px; min-width:160px; margin-left:-112px; box-shadow:0 5px 12px #0005; transition:transform .2s,filter .2s; transform-origin:center; }
-.bank-stack .banknote:hover,.bank-stack .banknote:focus { position:relative; z-index:50; transform:rotate(0) scale(2.25); filter:drop-shadow(0 12px 16px #0006); }
+.banknote-slot { display:inline-grid; place-items:center; position:relative; flex:0 0 auto; }
+.bank-stack .banknote-slot { width:160px; min-width:160px; margin-left:-112px; }
+.bank-stack .banknote-slot:first-child { margin-left:0; }
+.bank-stack .banknote { width:160px; min-width:160px; margin:0; box-shadow:0 5px 12px #0005; transition:transform .2s,filter .2s; transform-origin:center; }
+.bank-stack .banknote-slot:nth-child(even) .banknote { transform:rotate(7deg); }
+.bank-stack .banknote-slot:nth-child(odd) .banknote { transform:rotate(-9deg); }
+.bank-stack .banknote-slot:hover .banknote,.bank-stack .banknote:focus { position:relative; z-index:50; transform:rotate(0) scale(2.25); filter:drop-shadow(0 12px 16px #0006); }
 .initiative-roll { width:100%; margin:12px 0; background:#d8ef87; color:#173e34; }
 .leave-game { margin-left:10px; min-height:40px; padding:9px 14px; color:#fff; border:1px solid #9b2929; background:#b73535; font-size:12px; box-shadow:0 4px 10px #8d20202b; }
 .leave-game:hover:not(:disabled) { background:#8f2525; }
 .wallet { overflow:visible; }
 .wallet-notes { display:grid; grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); gap:9px; }
+.wallet .banknote-slot { width:100%; min-width:88px; }
 .wallet .banknote { width:100%; min-width:88px; box-shadow:0 3px 7px #0004; transition:transform .18s,filter .18s; }
-.wallet .banknote:hover,.wallet .banknote:focus { position:relative; z-index:30; transform:scale(1.65); filter:drop-shadow(0 8px 10px #0005); }
+.wallet .banknote-slot:hover .banknote,.wallet .banknote:focus { position:relative; z-index:30; transform:scale(1.65); filter:drop-shadow(0 8px 10px #0005); }
+.cash-in,.cash-out { animation-iteration-count:1!important; animation-fill-mode:none!important; }
 .dice-rolling { animation:diceShake .18s infinite; }
 @keyframes diceShake { 0%{transform:translate(-2px,-1px) rotate(-2deg)} 50%{transform:translate(3px,2px) rotate(3deg)} 100%{transform:translate(-1px,2px) rotate(-1deg)} }
-@media(max-width:760px){.bank-zone{padding:20px}.bank-stack{width:100%;margin-left:0;padding:28px 8px}.bank-stack .banknote{width:120px;min-width:120px;margin-left:-84px}.bank-stack .banknote:hover,.bank-stack .banknote:focus{transform:rotate(0) scale(1.65)}}
+@media(max-width:760px){.bank-zone{padding:20px}.bank-stack{width:100%;margin-left:0;padding:28px 8px}.bank-stack .banknote-slot{width:120px;min-width:120px;margin-left:-84px}.bank-stack .banknote{width:120px;min-width:120px}.bank-stack .banknote-slot:hover .banknote,.bank-stack .banknote:focus{transform:rotate(0) scale(1.65)}}
 @media(prefers-reduced-motion:reduce){.dice-rolling{animation:none}}
