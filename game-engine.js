@@ -67,4 +67,19 @@ function action(s,i,b){init(s);assert(s.players[i]&&!s.players[i].bankrupt,'Joga
  if(b.action==='end'){assert(s.rolled,'Jogue os dados primeiro.');let j=i;do{j=(j+1)%s.players.length}while(s.players[j].bankrupt&&j!==i);s.current=j;s.rolled=false;s.lastDice=[0,0];s.turnNumber++;log(s,'Agora é a vez de '+s.players[j].name+'.');return}
  throw Error('Ação desconhecida.');
 }
-module.exports={fresh,action,draw,init,resolve,buildable,cost,rent,cardNames};
+function removePlayer(s,i){
+ init(s);assert(s.players[i],'Jogador não encontrado.');
+ const name=s.players[i].name,shift=n=>n===null||n===undefined?n:n>i?n-1:n;
+ for(const k of Object.keys(s.titles)){const owner=s.titles[k].owner;if(owner===i)delete s.titles[k];else s.titles[k].owner=shift(owner)}
+ s.choices=s.choices.filter(c=>c.player!==i).map(c=>({...c,player:shift(c.player)}));
+ s.trades=s.trades.map(t=>t.from===i||t.to===i?{...t,status:t.status==='pending'?'cancelled':t.status}:{...t,from:shift(t.from),to:shift(t.to)});
+ s.moneyEvents=(s.moneyEvents||[]).filter(e=>e.from!==i&&e.to!==i).map(e=>({...e,from:shift(e.from),to:shift(e.to)}));
+ if(s.lastCard){if(s.lastCard.player===i)delete s.lastCard;else s.lastCard.player=shift(s.lastCard.player)}
+ const q=s.initiative;
+ if(q){const rolls={};for(const [key,value] of Object.entries(q.rolls||{})){const old=Number(key);if(old!==i)rolls[shift(old)]=value}q.rolls=rolls;q.eligible=(q.eligible||[]).filter(n=>n!==i).map(shift);q.winner=q.winner===i?null:shift(q.winner)}
+ const wasCurrent=s.current===i;s.players.splice(i,1);s.players.forEach((p,j)=>p.color=j);
+ if(wasCurrent){s.current=i%s.players.length;s.rolled=false;s.lastDice=[0,0]}else if(i<s.current)s.current--;
+ if(q&&!q.complete&&q.eligible.length===1&&q.rolls[q.eligible[0]]){q.complete=true;q.winner=q.eligible[0];s.current=q.winner;log(s,`${s.players[q.winner].name} começa a partida!`)}
+ log(s,`${name} saiu da partida. Seus títulos voltaram ao banco.`);
+}
+module.exports={fresh,action,draw,init,resolve,removePlayer,buildable,cost,rent,cardNames};
