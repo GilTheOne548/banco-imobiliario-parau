@@ -95,13 +95,12 @@ legend{font-size:13px;font-weight:bold}
 .board{overflow:visible!important}
 .board>img{border-radius:14px}
 .hot{overflow:visible}
-.tile-art{position:absolute;inset:0;display:block;opacity:0;pointer-events:none;background-repeat:no-repeat;transition:transform .18s ease,filter .18s ease,opacity .12s;transform-origin:center;box-shadow:0 0 0 1px #fff5}
+.tile-art{position:absolute;left:50%;top:50%;width:clamp(110px,13vw,190px);height:clamp(160px,20vw,280px);display:block;opacity:0;pointer-events:none;background-repeat:no-repeat;background-position:center;background-size:contain;background-color:#fff;border:2px solid #17212b;border-radius:7px;transition:transform .18s ease,filter .18s ease,opacity .12s;transform:translate(-50%,-50%) scale(.72);transform-origin:center;box-shadow:0 10px 24px #0008}
 .hot:hover{z-index:55;background:transparent!important;border-color:transparent!important}
-.hot:hover .tile-art{opacity:1;transform:scale(2.15);filter:drop-shadow(0 10px 12px #0008);border-radius:5px}
-.hot.tax-house .tile-art{opacity:1;background-color:#b96947}
+.hot:hover .tile-art{opacity:1;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 10px 12px #0008)}
 .character-pawn{width:34px!important;height:40px!important;border-radius:9px!important;border-width:3px!important;background-color:#fff!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;z-index:75!important}
 .property-status-marker{position:absolute;z-index:70;transform:translate(-50%,-50%);max-width:92px;padding:2px 4px;border:2px solid var(--player);border-radius:6px;background:#fffffff0;color:#173e34;font-size:7px;font-weight:800;line-height:1.1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;box-shadow:0 2px 5px #0004}
 .ownerDot{z-index:72!important}
 .tip{z-index:90!important}
 .tipInfo .cardHint{font-weight:700;color:#395f2a}
-@media(max-width:600px){#characterGrid{grid-template-columns:repeat(2,1fr)}.character-option img{height:90px}.property-status-marker{font-size:6px;max-width:68px}.hot:hover .tile-art{transform:scale(1.65)}}
+@media(max-width:600px){#characterGrid{grid-template-columns:repeat(2,1fr)}.character-option img{height:90px}.property-status-marker{font-size:6px;max-width:68px}.tile-art{width:105px;height:155px}.hot:hover .tile-art{transform:translate(-50%,-50%) scale(1)}}
