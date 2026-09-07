@@ -99,6 +99,18 @@ legend{font-size:13px;font-weight:bold}
 .hot:hover{z-index:55;background:transparent!important;border-color:transparent!important}
 .hot:hover .tile-art{opacity:1;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 10px 12px #0008)}
 .character-pawn{width:34px!important;height:40px!important;border-radius:9px!important;border-width:3px!important;background-color:#fff!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;z-index:75!important}
+.player-avatar{width:38px;height:44px;flex:0 0 auto;object-fit:contain;border:2px solid var(--player,#7a8b78);border-radius:10px;background:#fff;filter:drop-shadow(0 3px 4px #0003);transform:scale(1);transform-origin:center;transition:transform .18s ease,filter .18s ease;position:relative;z-index:2}
+.player-avatar:hover,.player-avatar:focus{transform:scale(2.25);filter:drop-shadow(0 9px 12px #0006);z-index:120}
+.turn-seat .player-avatar{border-color:var(--player)}
+.player-identity{display:flex!important;align-items:center;gap:8px;min-width:0}
+.player-identity>span{display:grid;text-align:left;line-height:1.1}
+.player-identity small{font-size:8px;color:#64715f;margin-top:2px}
+.wallet-avatar{width:42px;height:50px;border-color:currentColor}
+.character-pawn{cursor:zoom-in;transition:transform .18s ease,filter .18s ease;transform-origin:center}
+.character-pawn:not(.moving-pawn):hover{transform:translate(-50%,-50%) scale(2.45)!important;filter:drop-shadow(0 10px 10px #0008);z-index:130!important}
+.moving-pawn{pointer-events:none;z-index:140!important;filter:drop-shadow(0 8px 7px #0007);will-change:left,top,transform}
+.moving-pawn.pawn-arrived{animation:pawn-arrival .18s ease-out}
+@keyframes pawn-arrival{50%{filter:drop-shadow(0 0 12px #fff) brightness(1.25)}}
 .property-status-marker{position:absolute;z-index:70;transform:translate(-50%,-50%);max-width:92px;padding:2px 4px;border:2px solid var(--player);border-radius:6px;background:#fffffff0;color:#173e34;font-size:7px;font-weight:800;line-height:1.1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;box-shadow:0 2px 5px #0004}
 .ownerDot{z-index:72!important}
 .tip{z-index:90!important}
