@@ -29,3 +29,5 @@
 /* Mantém os tokens acima da arte do tabuleiro e neutraliza a regra global .board img. */
 .board .improvement-token{width:4.2%;height:auto;max-height:5.2%;display:block;z-index:90;object-fit:contain}
 .board .investment-token{width:4.5%;height:auto;max-height:5.5%}
+.spectator-banner{grid-column:1/-1;margin:0 14px;padding:12px 18px;border-radius:12px;background:#253a48;color:#fff;font-weight:800;text-align:center;box-shadow:0 5px 18px #0003}.spectating #game .hot{cursor:default}.debt-wait{display:block;padding:10px;border-radius:9px;background:#fff2cf;color:#76520a}.title-improvement-slot{display:inline-grid;place-items:center;width:58px;height:58px;flex:0 0 58px;position:relative;margin-left:auto;overflow:visible;z-index:4}.title-improvement-slot img{position:absolute;width:58px;height:58px;object-fit:contain;transition:transform .16s ease,filter .16s ease;transform-origin:center;pointer-events:none;filter:drop-shadow(0 3px 5px #0004)}.title-improvement-slot:hover{z-index:140}.title-improvement-slot:hover img{transform:scale(3.2);filter:drop-shadow(0 12px 14px #0007);z-index:140}
+.spectating #game .hot{pointer-events:none}
