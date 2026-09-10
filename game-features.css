@@ -96,24 +96,24 @@ legend{font-size:13px;font-weight:bold}
 .board>img{border-radius:14px}
 .hot{overflow:visible}
 .tile-art{position:absolute;left:50%;top:50%;width:clamp(110px,13vw,190px);height:clamp(160px,20vw,280px);display:block;opacity:0;pointer-events:none;background-repeat:no-repeat;background-position:center;background-size:contain;background-color:#fff;border:2px solid #17212b;border-radius:7px;transition:transform .18s ease,filter .18s ease,opacity .12s;transform:translate(-50%,-50%) scale(.72);transform-origin:center;box-shadow:0 10px 24px #0008}
-.hot:hover{z-index:55;background:transparent!important;border-color:transparent!important}
-.hot:hover .tile-art{opacity:1;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 10px 12px #0008)}
-.character-pawn{width:34px!important;height:40px!important;border-radius:9px!important;border-width:3px!important;background-color:#fff!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;z-index:75!important}
-.avatar-slot{display:inline-grid;place-items:center;width:38px;height:44px;flex:0 0 38px;position:relative;overflow:visible;z-index:2}
-.player-avatar{width:38px;height:44px;object-fit:contain;border:2px solid var(--player,#7a8b78);border-radius:10px;background:#fff;filter:drop-shadow(0 3px 4px #0003);transform:scale(1);transform-origin:center;transition:transform .18s ease,filter .18s ease;position:absolute;inset:0;z-index:2;pointer-events:none}
+.hot:hover{z-index:300;background:transparent!important;border-color:transparent!important}
+.hot:hover .tile-art{z-index:301;opacity:1;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 14px 18px #000a)}
+.character-pawn{width:42px!important;height:50px!important;border-radius:11px!important;border-width:3px!important;background-color:#fff!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;z-index:75!important;box-shadow:0 3px 8px #000b,0 0 0 2px #ffffffe6!important;filter:drop-shadow(0 3px 3px #0007)}
+.avatar-slot{display:inline-grid;place-items:center;width:44px;height:52px;flex:0 0 44px;position:relative;overflow:visible;z-index:2}
+.player-avatar{width:44px;height:52px;object-fit:contain;border:3px solid var(--player,#7a8b78);border-radius:11px;background:#fff;filter:drop-shadow(0 4px 5px #0005);transform:scale(1);transform-origin:center;transition:transform .18s ease,filter .18s ease;position:absolute;inset:0;z-index:2;pointer-events:none}
 #playersPanel .avatar-slot:hover{z-index:120}
 .turn-seat .player-avatar{border-color:var(--player)}
 .player-identity{display:flex!important;align-items:center;gap:8px;min-width:0}
 .player-identity>span{display:grid;text-align:left;line-height:1.1}
 .player-identity small{font-size:8px;color:#64715f;margin-top:2px}
-.wallet-avatar{width:42px;height:50px;border-color:currentColor}
-.wallet-avatar-slot{width:42px;height:50px;flex-basis:42px}
+.wallet-avatar{width:50px;height:60px;border-color:currentColor}
+.wallet-avatar-slot{width:50px;height:60px;flex-basis:50px}
 .character-pawn{cursor:default;transition:filter .18s ease;transform-origin:center}
 .moving-pawn{pointer-events:none;z-index:140!important;filter:drop-shadow(0 8px 7px #0007);will-change:left,top,transform}
 .moving-pawn.pawn-arrived{animation:pawn-arrival .18s ease-out}
 @keyframes pawn-arrival{50%{filter:drop-shadow(0 0 12px #fff) brightness(1.25)}}
 .ownerDot{display:none!important}
-.property-owner-token{position:absolute;width:25px;height:29px;transform:translate(-50%,-50%);z-index:74;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:2px solid var(--player);border-radius:7px;box-shadow:0 3px 7px #0007;pointer-events:none}
+.property-owner-token{position:absolute;width:30px;height:35px;transform:translate(-50%,-50%);z-index:74;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:3px solid var(--player);border-radius:8px;box-shadow:0 3px 8px #000a,0 0 0 1px #fff;pointer-events:none}
 .owner-title{display:flex!important;align-items:center;gap:10px;margin:8px 0;padding:8px;border-radius:10px;background:#fff3}
 .owner-title>span:last-child{display:grid}
 .owner-title small{font-size:10px;opacity:.8}
